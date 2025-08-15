@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Furniture Price Calculator</title>
     <meta name="description" content="Calculate furniture costs from China to India with real-time exchange rates - includes transportation costs">
     <meta name="theme-color" content="#2563eb">
@@ -19,7 +22,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="icons/icon-32x32.png">
     
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2.1">
 </head>
 <body>
     <div class="container">
@@ -61,19 +64,19 @@
                     
                     <!-- Volume-based transport -->
                     <div class="transport-group">
-                        <h5>By Volume</h5>
+                        <h5>By CBM</h5>
                         <div class="input-row">
                             <div class="input-group">
                                 <label for="transportChargeVolume">
-                                    <span class="label-text">Charge per m³ (CNY)</span>
+                                    <span class="label-text">Charge per CBM (INR)</span>
                                 </label>
-                                <input type="number" id="transportChargeVolume" step="0.01" min="0" placeholder="Cost per m³">
+                                <input type="number" id="transportChargeVolume" step="0.01" min="0" value="5500" placeholder="Cost per CBM in INR">
                             </div>
                             <div class="input-group">
                                 <label for="furnitureVolume">
-                                    <span class="label-text">Volume (m³)</span>
+                                    <span class="label-text">CBM</span>
                                 </label>
-                                <input type="number" id="furnitureVolume" step="0.01" min="0" placeholder="Volume in m³">
+                                <input type="number" id="furnitureVolume" step="0.01" min="0" placeholder="CBM value">
                             </div>
                         </div>
                     </div>
@@ -84,9 +87,9 @@
                         <div class="input-row">
                             <div class="input-group">
                                 <label for="transportChargeWeight">
-                                    <span class="label-text">Charge per kg (CNY)</span>
+                                    <span class="label-text">Charge per kg (INR)</span>
                                 </label>
-                                <input type="number" id="transportChargeWeight" step="0.01" min="0" placeholder="Cost per kg">
+                                <input type="number" id="transportChargeWeight" step="0.01" min="0" placeholder="Cost per kg in INR">
                             </div>
                             <div class="input-group">
                                 <label for="furnitureWeight">
@@ -109,20 +112,20 @@
                         <span id="furniturePriceCNY">-</span>
                     </div>
                     <div class="breakdown-item">
-                        <span>Volume Transport (CNY):</span>
+                        <span>Furniture Price (INR):</span>
+                        <span id="subtotalCNY">-</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>CBM Transport (INR):</span>
                         <span id="volumeTransportCost">-</span>
                     </div>
                     <div class="breakdown-item">
-                        <span>Weight Transport (CNY):</span>
+                        <span>Weight Transport (INR):</span>
                         <span id="weightTransportCost">-</span>
                     </div>
                     <div class="breakdown-item">
-                        <span>Total Transport (CNY):</span>
+                        <span>Total Transport (INR):</span>
                         <span id="totalTransportCost">-</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span>Subtotal (CNY):</span>
-                        <span id="subtotalCNY">-</span>
                     </div>
                     <div class="breakdown-item">
                         <span>Subtotal (INR):</span>
@@ -144,6 +147,6 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2.1"></script>
 </body>
 </html>

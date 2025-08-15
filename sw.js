@@ -1,4 +1,4 @@
-const CACHE_NAME = 'furniture-calculator-v1';
+const CACHE_NAME = 'furniture-calculator-v2.1';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -9,8 +9,11 @@ const urlsToCache = [
   '/icons/icon-512x512.png'
 ];
 
-// Install event - cache resources
+// Install event - cache resources and skip waiting
 self.addEventListener('install', (event) => {
+  // Skip waiting to activate immediately
+  self.skipWaiting();
+  
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
@@ -20,56 +23,59 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - network first strategy for better updates
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request)
+    // Try network first, then fallback to cache
+    fetch(event.request)
       .then((response) => {
-        // Return cached version or fetch from network
-        if (response) {
+        // Check if valid response
+        if (!response || response.status !== 200 || response.type !== 'basic') {
           return response;
         }
-        
-        // Clone the request for network fetch
-        const fetchRequest = event.request.clone();
-        
-        return fetch(fetchRequest).then((response) => {
-          // Check if valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
 
-          // Clone response for caching
-          const responseToCache = response.clone();
+        // Clone response for caching
+        const responseToCache = response.clone();
 
-          caches.open(CACHE_NAME)
-            .then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
+        caches.open(CACHE_NAME)
+          .then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
 
-          return response;
-        }).catch(() => {
-          // Return offline page or cached content if available
-          if (event.request.destination === 'document') {
-            return caches.match('/index.html');
-          }
-        });
+        return response;
+      })
+      .catch(() => {
+        // Network failed, try cache
+        return caches.match(event.request)
+          .then((response) => {
+            if (response) {
+              return response;
+            }
+            // Return offline page for document requests
+            if (event.request.destination === 'document') {
+              return caches.match('/index.html');
+            }
+          });
       })
   );
 });
 
-// Activate event - clean up old caches
+// Activate event - clean up old caches and claim clients
 self.addEventListener('activate', (event) => {
+  // Claim all clients immediately
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+    Promise.all([
+      self.clients.claim(),
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (cacheName !== CACHE_NAME) {
+              console.log('Deleting old cache:', cacheName);
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      })
+    ])
   );
 });

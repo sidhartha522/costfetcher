@@ -31,6 +31,23 @@ function initializePWA() {
             navigator.serviceWorker.register('/sw.js')
                 .then((registration) => {
                     console.log('SW registered: ', registration);
+                    
+                    // Check for updates every 5 seconds
+                    setInterval(() => {
+                        registration.update();
+                    }, 5000);
+                    
+                    // Listen for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New content is available, refresh the page
+                                console.log('New content available, refreshing...');
+                                window.location.reload();
+                            }
+                        });
+                    });
                 })
                 .catch((registrationError) => {
                     console.log('SW registration failed: ', registrationError);
@@ -229,7 +246,7 @@ function calculatePrice(event) {
         const transportChargeWeight = parseFloat(document.getElementById('transportChargeWeight').value) || 0;
         const furnitureWeight = parseFloat(document.getElementById('furnitureWeight').value) || 0;
         
-        // Calculate transport costs
+        // Calculate transport costs (already in INR)
         const volumeTransportCost = transportChargeVolume * furnitureVolume;
         const weightTransportCost = transportChargeWeight * furnitureWeight;
         const totalTransportCost = volumeTransportCost + weightTransportCost;
@@ -239,17 +256,17 @@ function calculatePrice(event) {
         }
         
         // Calculate costs
-        const subtotalCNY = furniturePrice + totalTransportCost;
-        const subtotalINR = subtotalCNY * currentExchangeRate;
+        const furniturePriceINR = furniturePrice * currentExchangeRate;
+        const subtotalINR = furniturePriceINR + totalTransportCost;
         const totalPriceINR = subtotalINR;
         
         // Display results
         displayResults({
             furniturePrice,
+            furniturePriceINR,
             volumeTransportCost,
             weightTransportCost,
             totalTransportCost,
-            subtotalCNY,
             subtotalINR,
             totalPriceINR
         });
@@ -262,10 +279,10 @@ function calculatePrice(event) {
 function displayResults(calculations) {
     // Update result elements
     document.getElementById('furniturePriceCNY').textContent = `¥${calculations.furniturePrice.toFixed(2)}`;
-    document.getElementById('volumeTransportCost').textContent = `¥${calculations.volumeTransportCost.toFixed(2)}`;
-    document.getElementById('weightTransportCost').textContent = `¥${calculations.weightTransportCost.toFixed(2)}`;
-    document.getElementById('totalTransportCost').textContent = `¥${calculations.totalTransportCost.toFixed(2)}`;
-    document.getElementById('subtotalCNY').textContent = `¥${calculations.subtotalCNY.toFixed(2)}`;
+    document.getElementById('volumeTransportCost').textContent = `₹${calculations.volumeTransportCost.toFixed(2)}`;
+    document.getElementById('weightTransportCost').textContent = `₹${calculations.weightTransportCost.toFixed(2)}`;
+    document.getElementById('totalTransportCost').textContent = `₹${calculations.totalTransportCost.toFixed(2)}`;
+    document.getElementById('subtotalCNY').textContent = `₹${calculations.furniturePriceINR.toFixed(2)}`;
     document.getElementById('subtotalINR').textContent = `₹${calculations.subtotalINR.toFixed(2)}`;
     document.getElementById('totalPrice').textContent = `₹${calculations.totalPriceINR.toFixed(2)}`;
     
