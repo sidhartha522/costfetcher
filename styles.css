@@ -89,6 +89,76 @@ header p {
     opacity: 0.8;
 }
 
+.rate-options {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.rate-toggle {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.rate-toggle input[type="checkbox"] {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    accent-color: white;
+    cursor: pointer;
+}
+
+.manual-rate {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.manual-rate.hidden {
+    display: none;
+}
+
+.manual-rate input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    background: white;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.manual-rate input::placeholder {
+    color: #666;
+}
+
+.manual-rate input:focus {
+    outline: none;
+    border-color: #4facfe;
+    background: white;
+    box-shadow: 0 0 0 2px rgba(79, 172, 254, 0.2);
+}
+
+.apply-btn {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.apply-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
 .input-group {
     margin-bottom: 25px;
 }

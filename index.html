@@ -34,6 +34,16 @@
                     <span id="exchangeRate">Loading...</span>
                     <button id="refreshRate" class="refresh-btn" title="Refresh Exchange Rate">🔄</button>
                 </div>
+                <div class="rate-options">
+                    <label class="rate-toggle">
+                        <input type="checkbox" id="manualRateToggle">
+                        <span>Use manual rate</span>
+                    </label>
+                    <div id="manualRateInput" class="manual-rate hidden">
+                        <input type="number" id="manualRate" step="0.0001" min="0" placeholder="Enter CNY to INR rate">
+                        <button type="button" id="applyManualRate" class="apply-btn">Apply</button>
+                    </div>
+                </div>
                 <div class="last-updated" id="lastUpdated"></div>
             </div>
 

@@ -10,12 +10,17 @@ const refreshRateButton = document.getElementById('refreshRate');
 const calculatorForm = document.getElementById('calculatorForm');
 const resultsDiv = document.getElementById('results');
 const errorDiv = document.getElementById('error');
+const manualRateToggle = document.getElementById('manualRateToggle');
+const manualRateInput = document.getElementById('manualRateInput');
+const manualRateField = document.getElementById('manualRate');
+const applyManualRateButton = document.getElementById('applyManualRate');
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
     initializePWA();
     fetchExchangeRate();
     setupEventListeners();
+    setupManualRateToggle();
 });
 
 // PWA Installation and Service Worker
@@ -86,8 +91,41 @@ function setupEventListeners() {
     calculatorForm.addEventListener('submit', calculatePrice);
 }
 
+// Manual Rate Toggle
+function setupManualRateToggle() {
+    manualRateToggle.addEventListener('change', (e) => {
+        if (e.target.checked) {
+            manualRateInput.classList.remove('hidden');
+            manualRateField.value = currentExchangeRate.toFixed(4);
+        } else {
+            manualRateInput.classList.add('hidden');
+            // Revert to API rate
+            fetchExchangeRate();
+        }
+    });
+
+    applyManualRateButton.addEventListener('click', () => {
+        const manualRate = parseFloat(manualRateField.value);
+        if (isNaN(manualRate) || manualRate <= 0) {
+            showError('Please enter a valid exchange rate');
+            return;
+        }
+        
+        currentExchangeRate = manualRate;
+        updateExchangeRateDisplay();
+        lastUpdatedElement.textContent = 'Manual rate';
+        footerLastUpdatedElement.textContent = 'Manual exchange rate applied';
+        hideError();
+    });
+}
+
 // Exchange Rate Functions
 async function fetchExchangeRate() {
+    // Don't fetch from API if manual rate is active
+    if (manualRateToggle.checked) {
+        return;
+    }
+
     try {
         showLoading(true);
         hideError();
