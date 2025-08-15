@@ -126,19 +126,6 @@ input[type="number"]:focus {
     box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
 }
 
-.excise-info {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 25px;
-    border-left: 4px solid #28a745;
-}
-
-.excise-label {
-    font-weight: 600;
-    color: #28a745;
-}
-
 .calculate-btn {
     width: 100%;
     padding: 18px;
@@ -337,4 +324,51 @@ footer {
     background: transparent;
     padding: 5px 10px;
     font-size: 1.2rem;
+}
+
+/* Transport Section */
+.transport-section {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border-left: 4px solid #4facfe;
+}
+
+.transport-section h4 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.transport-group {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.transport-group:last-child {
+    margin-bottom: 0;
+}
+
+.transport-group h5 {
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+@media (max-width: 480px) {
+    .input-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
 }

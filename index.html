@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Furniture Price Calculator</title>
-    <meta name="description" content="Calculate furniture costs from China to India with real-time exchange rates">
+    <meta name="description" content="Calculate furniture costs from China to India with real-time exchange rates - includes transportation costs">
     <meta name="theme-color" content="#2563eb">
     
     <!-- PWA Manifest -->
@@ -46,24 +46,46 @@
                     <input type="number" id="furniturePrice" step="0.01" min="0" required placeholder="Enter price in CNY">
                 </div>
 
-                <div class="input-group">
-                    <label for="transportCharge">
-                        <span class="label-text">Transportation Charge per Cubic Meter (CNY)</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="number" id="transportCharge" step="0.01" min="0" required placeholder="Enter transport cost per m³">
-                </div>
+                <div class="transport-section">
+                    <h4>Transportation Costs</h4>
+                    
+                    <!-- Volume-based transport -->
+                    <div class="transport-group">
+                        <h5>By Volume</h5>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="transportChargeVolume">
+                                    <span class="label-text">Charge per m³ (CNY)</span>
+                                </label>
+                                <input type="number" id="transportChargeVolume" step="0.01" min="0" placeholder="Cost per m³">
+                            </div>
+                            <div class="input-group">
+                                <label for="furnitureVolume">
+                                    <span class="label-text">Volume (m³)</span>
+                                </label>
+                                <input type="number" id="furnitureVolume" step="0.01" min="0" placeholder="Volume in m³">
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="input-group">
-                    <label for="furnitureVolume">
-                        <span class="label-text">Furniture Volume (Cubic Meters)</span>
-                        <span class="required">*</span>
-                    </label>
-                    <input type="number" id="furnitureVolume" step="0.01" min="0" required placeholder="Enter volume in m³">
-                </div>
-
-                <div class="excise-info">
-                    <span class="excise-label">Excise Duty: 10% (Fixed)</span>
+                    <!-- Weight-based transport -->
+                    <div class="transport-group">
+                        <h5>By Weight</h5>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="transportChargeWeight">
+                                    <span class="label-text">Charge per kg (CNY)</span>
+                                </label>
+                                <input type="number" id="transportChargeWeight" step="0.01" min="0" placeholder="Cost per kg">
+                            </div>
+                            <div class="input-group">
+                                <label for="furnitureWeight">
+                                    <span class="label-text">Weight (kg)</span>
+                                </label>
+                                <input type="number" id="furnitureWeight" step="0.01" min="0" placeholder="Weight in kg">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <button type="submit" class="calculate-btn">Calculate Total Price</button>
@@ -77,8 +99,16 @@
                         <span id="furniturePriceCNY">-</span>
                     </div>
                     <div class="breakdown-item">
-                        <span>Transportation Cost (CNY):</span>
-                        <span id="transportCostCNY">-</span>
+                        <span>Volume Transport (CNY):</span>
+                        <span id="volumeTransportCost">-</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Weight Transport (CNY):</span>
+                        <span id="weightTransportCost">-</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Total Transport (CNY):</span>
+                        <span id="totalTransportCost">-</span>
                     </div>
                     <div class="breakdown-item">
                         <span>Subtotal (CNY):</span>
@@ -87,10 +117,6 @@
                     <div class="breakdown-item">
                         <span>Subtotal (INR):</span>
                         <span id="subtotalINR">-</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span>Excise Duty (10%):</span>
-                        <span id="exciseDuty">-</span>
                     </div>
                     <div class="breakdown-item total">
                         <span>Total Price (INR):</span>

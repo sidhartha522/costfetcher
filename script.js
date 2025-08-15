@@ -177,40 +177,42 @@ function calculatePrice(event) {
         
         // Get input values
         const furniturePrice = parseFloat(document.getElementById('furniturePrice').value);
-        const transportCharge = parseFloat(document.getElementById('transportCharge').value);
-        const furnitureVolume = parseFloat(document.getElementById('furnitureVolume').value);
         
-        // Validate inputs
+        // Validate furniture price
         if (isNaN(furniturePrice) || furniturePrice <= 0) {
             throw new Error('Please enter a valid furniture price');
         }
         
-        if (isNaN(transportCharge) || transportCharge < 0) {
-            throw new Error('Please enter a valid transportation charge');
-        }
+        // Get volume transport values
+        const transportChargeVolume = parseFloat(document.getElementById('transportChargeVolume').value) || 0;
+        const furnitureVolume = parseFloat(document.getElementById('furnitureVolume').value) || 0;
         
-        if (isNaN(furnitureVolume) || furnitureVolume <= 0) {
-            throw new Error('Please enter a valid furniture volume');
-        }
+        // Get weight transport values
+        const transportChargeWeight = parseFloat(document.getElementById('transportChargeWeight').value) || 0;
+        const furnitureWeight = parseFloat(document.getElementById('furnitureWeight').value) || 0;
+        
+        // Calculate transport costs
+        const volumeTransportCost = transportChargeVolume * furnitureVolume;
+        const weightTransportCost = transportChargeWeight * furnitureWeight;
+        const totalTransportCost = volumeTransportCost + weightTransportCost;
         
         if (currentExchangeRate <= 0) {
             throw new Error('Exchange rate not available. Please refresh the rate.');
         }
         
         // Calculate costs
-        const transportationCost = transportCharge * furnitureVolume;
-        const subtotalCNY = furniturePrice + transportationCost;
+        const subtotalCNY = furniturePrice + totalTransportCost;
         const subtotalINR = subtotalCNY * currentExchangeRate;
-        const exciseDuty = subtotalINR * 0.10; // 10% excise duty
-        const totalPriceINR = subtotalINR + exciseDuty;
+        const totalPriceINR = subtotalINR;
         
         // Display results
         displayResults({
             furniturePrice,
-            transportationCost,
+            volumeTransportCost,
+            weightTransportCost,
+            totalTransportCost,
             subtotalCNY,
             subtotalINR,
-            exciseDuty,
             totalPriceINR
         });
         
@@ -222,10 +224,11 @@ function calculatePrice(event) {
 function displayResults(calculations) {
     // Update result elements
     document.getElementById('furniturePriceCNY').textContent = `¥${calculations.furniturePrice.toFixed(2)}`;
-    document.getElementById('transportCostCNY').textContent = `¥${calculations.transportationCost.toFixed(2)}`;
+    document.getElementById('volumeTransportCost').textContent = `¥${calculations.volumeTransportCost.toFixed(2)}`;
+    document.getElementById('weightTransportCost').textContent = `¥${calculations.weightTransportCost.toFixed(2)}`;
+    document.getElementById('totalTransportCost').textContent = `¥${calculations.totalTransportCost.toFixed(2)}`;
     document.getElementById('subtotalCNY').textContent = `¥${calculations.subtotalCNY.toFixed(2)}`;
     document.getElementById('subtotalINR').textContent = `₹${calculations.subtotalINR.toFixed(2)}`;
-    document.getElementById('exciseDuty').textContent = `₹${calculations.exciseDuty.toFixed(2)}`;
     document.getElementById('totalPrice').textContent = `₹${calculations.totalPriceINR.toFixed(2)}`;
     
     // Show results
