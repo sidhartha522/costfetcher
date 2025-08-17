@@ -1,7 +1,7 @@
 {
-  "name": "Furniture Price Calculator",
-  "short_name": "FurnitureCalc",
-  "description": "Calculate furniture costs from China to India with real-time exchange rates",
+  "name": "Cost Fetcher",
+  "short_name": "CostFetcher",
+  "description": "Calculate product costs from China to India with real-time exchange rates",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

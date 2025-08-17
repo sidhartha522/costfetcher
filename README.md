@@ -1,6 +1,6 @@
-# Furniture Price Calculator PWA
+# Cost Fetcher PWA
 
-A Progressive Web App (PWA) to calculate furniture costs from China to India with real-time exchange rates. This app can be installed on mobile devices like a native app and works offline.
+A Progressive Web App (PWA) to calculate product costs from China to India with real-time exchange rates. This app can be installed on mobile devices like a native app and works offline.
 
 ## Features
 
@@ -100,8 +100,8 @@ The app uses free exchange rate APIs:
 ## Calculation Formula
 
 ```
-Transportation Cost = Transport Charge per m³ × Furniture Volume
-Subtotal (CNY) = Furniture Price + Transportation Cost
+Transportation Cost = Transport Charge per m³ × Product Volume
+Subtotal (CNY) = Product Price + Transportation Cost
 Subtotal (INR) = Subtotal (CNY) × Exchange Rate
 Excise Duty = Subtotal (INR) × 10%
 Total Price = Subtotal (INR) + Excise Duty

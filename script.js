@@ -233,9 +233,9 @@ function calculatePrice(event) {
         // Get input values
         const furniturePrice = parseFloat(document.getElementById('furniturePrice').value);
         
-        // Validate furniture price
+        // Validate product price
         if (isNaN(furniturePrice) || furniturePrice <= 0) {
-            throw new Error('Please enter a valid furniture price');
+            throw new Error('Please enter a valid product price');
         }
         
         // Get volume transport values
